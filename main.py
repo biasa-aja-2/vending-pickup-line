@@ -59,6 +59,12 @@ def main():
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8", newline="") as handle:
         handle.write(LINE)
+    # Read it back: the file on disk must be exactly the gated line.
+    with open(path, "r", encoding="utf-8", newline="") as handle:
+        written = handle.read()
+    if written != LINE:
+        print("gate failed: entry.txt on disk differs from the line", file=sys.stderr)
+        return 1
     print("wrote %d characters to %s" % (len(LINE), path))
     return 0
 
